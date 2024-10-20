@@ -22,10 +22,15 @@
                                     <input type="number" id="age" placeholder="Write age"
                                         class="border w-full p-2 rounded-md" v-model="data.age">
                                 </div>
-                                <div class="space-y-3">
+                                <!-- <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="color">Color</label>
                                     <input type="text" id="color" placeholder="Write color"
                                         class="border w-full p-2 rounded-md" v-model="data.colour">
+                                </div> -->
+                                <div class="space-y-3">
+                                    <label class="block font-medium text-lg" for="color">Color</label>
+                                    <SelectInput class="border w-full p-2 rounded-md" :options="colorList"
+                                        v-model="data.colour" />
                                 </div>
                             </div>
 
@@ -46,10 +51,12 @@
 
 <script>
 import { useUnicornStore } from "@/stores/UnicornStore";
+import SelectInput from "../common/SelectInput.vue";
 import CloseIcon from "../icons/CloseIcon.vue";
 export default {
     components: {
         CloseIcon,
+        SelectInput,
 
     },
     props: {
@@ -66,7 +73,14 @@ export default {
                 age: "",
                 name: "",
                 colour: "",
-            }
+            },
+            colorList: [
+                'green',
+                'blue',
+                'yellow',
+                'purple',
+                'gray',
+            ]
         };
     },
     created() {
@@ -84,6 +98,11 @@ export default {
             e.preventDefault();
             await this.unicornStore.createUnicorn(this.data);
             this.unicornStore.getAllUnicornData();
+            this.data = {
+                age: "",
+                name: "",
+                colour: "",
+            }
             this.$emit("close-modal");
         }
 

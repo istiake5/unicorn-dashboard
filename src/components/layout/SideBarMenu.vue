@@ -3,12 +3,13 @@
 
         <!-- Brand Logo / Name -->
         <div class="flex items-center px-6 py-3 h-16">
-            <div class="text-2xl font-bold tracking-tight text-gray-800">Dashing Admin.</div>
+            <router-link to="/" class="text-2xl font-bold tracking-tight text-gray-800" @click="fetchData">Dashing
+                Admin.</router-link>
         </div>
         <!-- @end Brand Logo / Name -->
 
         <div class="px-4 py-2 min-h-[93vh]  flex flex-col  justify-between ">
-            
+
             <div>
                 <ul>
                     <SidebarItem to="/" label="Dashboard">
@@ -95,6 +96,8 @@
 import CalendarIcon from '@/components/icons/CalendarIcon.vue';
 import ChartIcone from '@/components/icons/ChartIcone.vue';
 import ChartIconTwo from '@/components/icons/chartIconTwo.vue';
+import ChevronLeft from '@/components/icons/ChevronLeft.vue';
+import ChevronRight from '@/components/icons/ChevronRight.vue';
 import DesignIcon from '@/components/icons/DesignIcon.vue';
 import DocumentIcon from '@/components/icons/DocumentIcon.vue';
 import EngingeeringIcon from '@/components/icons/EngingeeringIcon.vue';
@@ -105,8 +108,7 @@ import ReportIconTwo from '@/components/icons/ReportIconTwo.vue';
 import SqureBoxIcon from '@/components/icons/SqureBoxIcon.vue';
 import TeamIcon from '@/components/icons/TeamIcon.vue';
 import TimerIcone from '@/components/icons/TimerIcon.vue';
-import ChevronLeft from '@/components/icons/ChevronLeft.vue';
-import ChevronRight from '@/components/icons/ChevronRight.vue';
+import { useUnicornStore } from '@/stores/UnicornStore';
 import SidebarItem from './SidebarItem.vue';
 
 export default {
@@ -130,12 +132,17 @@ export default {
         ChevronRight,
 
     },
-    setup() {
-
+    data() {
+        return {
+            unicornStore: useUnicornStore()
+        }
     },
     methods: {
         logout() {
             alert('logout method')
+        },
+        fetchData() {
+            this.unicornStore.getAllUnicornData();
         }
     },
 

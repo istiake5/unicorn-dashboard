@@ -3,7 +3,9 @@
         <div class="flex items-center w-2/3">
             <input
                 class="bg-gray-200 focus:outline-none focus:shadow-outline focus:bg-white border border-transparent focus:border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal hidden md:block placeholder-gray-700 mr-10"
-                type="text" placeholder="Search..." />
+                type="text" placeholder="Search..." v-model="search" />
+            <button class="bg-red-500 text-white p-1 px-3 rounded-md" v-if="unicornStore.searchStatus"
+                @click="clearSearch">Clear</button>
 
             <div class="p-2 rounded-full hover:bg-gray-200 cursor-pointer md:hidden">
                 <MenuBarIcone @click="toggleMobileSidebar" />
@@ -47,6 +49,7 @@
 <script>
 import BellIcon from '@/components/icons/BellIcon.vue';
 import MenuBarIcone from '@/components/icons/MenuBarIcone.vue';
+import { useUnicornStore } from '@/stores/UnicornStore';
 import MobileSideBarMenu from './MobileSideBarMenu.vue';
 
 export default {
@@ -59,6 +62,8 @@ export default {
         return {
             open: false,
             isSidebarOpen: false,
+            unicornStore: useUnicornStore(),
+            search: ''
         };
     },
     computed: {
@@ -85,6 +90,13 @@ export default {
         },
         logout() {
             alert('logout method')
+        },
+        searchUnicorn() {
+            this.unicornStore.searchUnicorn(this.search)
+        },
+        clearSearch() {
+            this.search = "";
+            this.unicornStore.clearSearch();
         }
     },
     mounted() {
@@ -93,5 +105,14 @@ export default {
     beforeUnmount() {
         document.removeEventListener('click', this.handleClickOutside);
     },
+    watch: {
+        search: {
+            handler(newValue) {
+                console.log('search-1', newValue)
+                this.unicornStore.searchUnicorn(newValue)
+            },
+            deep: true,
+        }
+    }
 };
 </script>

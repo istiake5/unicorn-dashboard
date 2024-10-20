@@ -9,7 +9,7 @@
                             <h3 class="text-xl font-bold mb-3">Create Unicorn </h3>
                         </div>
 
-                        <form class="bg-white shadow-md p-4 rounded-md">
+                        <form class="bg-white shadow-md p-4 rounded-md" @submit="editUnicornItem">
                             <div class="space-y-3">
                                 <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="name">Name</label>
@@ -24,8 +24,8 @@
                                 </div>
                                 <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="color">Color</label>
-                                    <input type="text" id="color" placeholder="Write color"
-                                        class="border w-full p-2 rounded-md" v-model="data.colour">
+                                    <SelectInput class="border w-full p-2 rounded-md" :options="colorList"
+                                        v-model="data.colour" />
                                 </div>
                             </div>
 
@@ -46,10 +46,12 @@
 
 <script>
 import { useUnicornStore } from "@/stores/UnicornStore";
+import SelectInput from "../common/SelectInput.vue";
 import CloseIcon from "../icons/CloseIcon.vue";
 export default {
     components: {
         CloseIcon,
+        SelectInput,
 
     },
     props: {
@@ -69,20 +71,34 @@ export default {
                 name: "",
                 colour: "",
                 _id: ""
-            }
+            },
+            colorList: [
+                'green',
+                'blue',
+                'yellow',
+                'purple',
+                'gray',
+            ]
         };
     },
     created() {
-        
+
     },
     mounted() {
-       
+
     },
     methods: {
         closeModal() {
             this.$emit("close-modal");
 
         },
+        async editUnicornItem(e) {
+            e.preventDefault();
+            await this.unicornStore.editUnicornItem(this.data);
+            this.unicornStore.getAllUnicornData();
+            this.$emit("close-modal");
+
+        }
     },
     computed: {
 
@@ -92,7 +108,7 @@ export default {
             immediate: true,
             handler(newValue) {
                 console.log('watch-1', newValue)
-                this.data = { ...newValue }; // Assign the new unicorn data
+                this.data = { ...newValue };
             },
 
         }

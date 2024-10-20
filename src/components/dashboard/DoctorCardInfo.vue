@@ -4,7 +4,7 @@
             <div class="p-4 flex items-center space-x-6">
                 <div>
                     <p class="text-sm text-gray-500">No</p>
-                    <p class="font-semibold text-lg">{{ serialNo + 1 }}</p>
+                    <p class="font-semibold text-lg">{{ serialNo }}</p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Doctor Name</p>
@@ -22,7 +22,7 @@
                     <p class="text-sm text-gray-500">Status</p>
                     <span
                         class="inline-flex items-center px-3 py-1.5 rounded-xl bg-yellow-100 text-yellow-800 text-sm font-medium">
-                        🦄 Baby Unicorn
+                        {{ unicornStatus(data) }}
                     </span>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                     Edit
                 </button>
                 <button class="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded-lg text-sm font-medium">
-                    <TrashIcon class="w-5 h-5" />
+                    <TrashIcon class="w-5 h-5" @click="deleteUnicornItem(data)" />
                 </button>
             </div>
         </div>
@@ -109,6 +109,15 @@ export default {
             this.showUnicornEditModal = true;
 
         },
+        async deleteUnicornItem(data) {
+            if (confirm('Are you sure?')) {
+                console.log('deleteUnicornItem', data)
+                await this.unicornStore.deleteUnicornItem(data)
+                this.unicornStore.getAllUnicornData();
+                this.$emit("close-modal");
+            }
+
+        },
         getRandomBorderColor() {
             const colors = [
                 'border-blue-800',
@@ -119,10 +128,19 @@ export default {
             ];
             return colors[Math.floor(Math.random() * colors.length)];
         },
-    },
+        unicornStatus(data) {
+            if (data.age >= 0 && data.age <= 8) {
+                return "👶 Baby Unicorn";
+            } else if (data.age >= 9 && data.age <= 25) {
+                return "🦄 Mature Unicorn";
+            } else {
+                return "👴 Old Unicorn";
+            }
+        },
 
-    computed: {
+        computed: {
 
+        }
     }
 }
 </script>

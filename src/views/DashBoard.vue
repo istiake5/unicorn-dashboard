@@ -1,8 +1,9 @@
 <template>
     <div>
+        <Loader :show="isLoading" />
         <!-- title and crate button -->
         <div class="flex  items-center justify-between mb-5">
-            <p class="text-2xl font-bold">Welcome John Doe {{ testEnv }}</p>
+            <p class="text-2xl font-bold">Welcome John Doe</p>
             <div>
 
                 <button type="button"
@@ -17,7 +18,23 @@
 
         <!-- Doctor card Info -->
         <div class="space-y-3">
-            <DoctorCardInfo v-for="(data, index) in unicornData" :data="data" :serialNo="index" :key="index" />
+
+            <div class="">
+                <select class="w-52 p-2 rounded-md" @change="sortUnicorns($event)">
+                    <option value="">Sorting Option </option>
+                    <option value="deesc">Descending </option>
+                    <option value="asce">Ascending</option>
+                    <option value="ageDesc">Age Descending</option>
+                    <option value="ageAsce">Age Ascending</option>
+                    <option value="color">Color</option>
+                </select>
+            </div>
+            <!-- <DoctorCardInfo v-for="(data, index) in unicornData" :data="data" :serialNo="index" :key="index" /> -->
+
+            <DoctorCardInfo v-for="(data, index) in paginatedUnicorns" :data="data"
+                :serialNo="index + 1 + ((currentPage - 1) * itemsPerPage)" :key="data._id" />
+
+            <Pagination :currentPage="currentPage" :totalPages="totalPages" :onPageChange="changePage" />
 
             <div class="flex flex-col bg-orange-300 rounded-md shadow-md p-3" v-if="unicornData.length == 0">
                 <p class="font-bold text-center p-2">This App run by CRUD Api. If Data didn't show then create a unicorn
@@ -34,6 +51,8 @@
 </template>
 
 <script>
+import Loader from '@/components/common/Loader.vue';
+import Pagination from '@/components/common/Pagination.vue';
 import DoctorCardInfo from '@/components/dashboard/DoctorCardInfo.vue';
 import ChevronDownIcon from '@/components/icons/ChevronDownIcon.vue';
 import EngingeeringIcon from '@/components/icons/EngingeeringIcon.vue';
@@ -51,6 +70,8 @@ export default {
         EngingeeringIcon,
         DoctorCardInfo,
         UnicornCreateModal,
+        Loader,
+        Pagination,
     },
 
     data() {
@@ -69,16 +90,45 @@ export default {
         },
         openUnicornCreateModal() {
             this.showUnicornCreateModal = true;
-        }
+        },
+        changePage(page) {
+            this.unicornStore.changePage(page);
+        },
+        sortUnicorns(event) {
+            const option = event.target.value;
+            console.log('sortUnicorns', option)
+            this.unicornStore.sortUnicorns(option);
+        },
 
     },
     computed: {
-        testEnv() {
-            return import.meta.env.VITE_TEST_ENV_FILE;
-        },
         unicornData() {
             return this.unicornStore.unicornData;
-        }
-    }
+        },
+        isLoading() {
+            return this.unicornStore.loading;
+        },
+        paginatedUnicorns() {
+            return this.unicornStore.paginatedUnicorns;
+        },
+        totalPages() {
+            return this.unicornStore.totalPages;
+        },
+        currentPage() {
+            return this.unicornStore.currentPage;
+        },
+        itemsPerPage() {
+            return this.unicornStore.itemsPerPage;
+        },
+    },
+    watch: {
+        // Watch for changes in unicornData to recalculate pagination
+        unicornData: {
+            handler() {
+                this.changePage(1); // Reset to page 1 after sorting
+            },
+            deep: true,
+        },
+    },
 }
 </script>

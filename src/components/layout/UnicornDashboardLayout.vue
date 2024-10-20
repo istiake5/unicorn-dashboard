@@ -11,6 +11,7 @@
                 <Nav />
 
                 <div class="md:max-w-full md:mx-auto px-10 py-8">
+                    <ToastNotification />
                     <router-view />
 
                 </div>
@@ -20,12 +21,13 @@
 </template>
 
 <script>
+import ToastNotification from '../common/ToastNotification.vue';
 import Nav from './Nav.vue';
 import SideBarMenu from './SideBarMenu.vue';
 
 export default {
     name: "UnicornDashboardLayout",
-    components: { SideBarMenu, Nav },
+    components: { SideBarMenu, Nav, ToastNotification },
     setup() {
 
     },

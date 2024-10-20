@@ -4,64 +4,167 @@ import { defineStore } from 'pinia';
 export const useUnicornStore = defineStore('UnicornStore', {
   state: () => ({
     unicornData: [],
-    singleUnicornData: {}
+    temUniornData: [],
+    singleUnicornData: {},
+    loading: false,
+    searchStatus: false,
+    toastMessage: {},
+    currentPage: 1,
+    itemsPerPage: 5,
   }),
 
   getters: {
-
+    paginatedUnicorns() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      return this.unicornData.slice(start, start + this.itemsPerPage);
+    },
+    totalPages() {
+      return Math.ceil(this.unicornData.length / this.itemsPerPage);
+    },
   },
 
   actions: {
+    sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    },
+    changePage(page) {
+      this.currentPage = page;
+    },
+    sortUnicorns(option) {
+      console.log('createUnicorn', option);
+      switch (option) {
+        case 'deesc':
+          this.unicornData.sort((a, b) => b.name.localeCompare(a.name));
+          break;
+        case 'asce':
+          this.unicornData.sort((a, b) => a.name.localeCompare(b.name));
+          break;
+        case 'ageDesc':
+          this.unicornData.sort((a, b) => b.age - a.age);
+          break;
+        case 'ageAsce':
+          this.unicornData.sort((a, b) => a.age - b.age);
+          break;
+        case 'color':
+          this.unicornData.sort((a, b) => a.color.localeCompare(b.color));
+          break;
+        default:
+          console.log('No valid sorting option selected');
+          break;
+      }
+    },
+    searchUnicorn(searchQuery) {
+      console.log('filteredUnicorns', searchQuery);
+      const query = searchQuery.toLowerCase();
+      //this.temUniornData = this.unicornData;
+      if (query === '') {
+          this.searchStatus = false;
+          this.unicornData = this.temUniornData;
+      } else {
+        let searchData = this.unicornData.filter(unicorn =>
+          unicorn.name.toLowerCase().includes(query) ||
+          unicorn.color?.toLowerCase()?.includes(query)
+        );
+
+        this.unicornData = searchData;
+        this.searchStatus = true;
+        if(searchData.length <= 0){
+          this.toastMessage = {
+            type: 'error',
+            message: "Your Search Item didn't found"
+          };
+        }
+        console.log('filteredUnicorns-2', searchData);
+      }
+    },
+    clearSearch(){
+      this.unicornData = this.temUniornData;
+    },
     async getAllUnicornData() {
-      //this.loading = true;
-
+      this.loading = true;
       try {
-
         let crudUniqueId = import.meta.env.VITE_CRUD_UNIQUE_ID;
-        const result = await axios.get(`https://crudcrud.com/api/${crudUniqueId}/unicorns`);
+        const result = await axios.get(`${crudUniqueId}/unicorns`);
         this.unicornData = result.data;
+        this.temUniornData = result.data;
         console.log('axior data', result);
       }
       catch (error) {
         console.log('error', error)
       }
       finally {
-        console.log('done')
+        this.loading = false;
       }
     },
-    // async getIdWiseCrudInfo(id) {
-    //   try {
-    //     console.log('axior data-2', id);
-    //     let crudUniqueId = import.meta.env.VITE_CRUD_UNIQUE_ID;
-    //     const result = await axios.get(`https://crudcrud.com/api/${crudUniqueId}/unicorns/${id}`);
-    //     this.singleUnicornData = result.data
-    //     console.log('axior data-2', result);
-    //   }
-    //   catch (error) {
-    //     console.log('error', error)
-    //   }
-    //   finally {
-    //     console.log('done')
-    //   }
-    // }
-    async createUnicorn(data){
+    async createUnicorn(data) {
+      this.loading = true;
       try {
         console.log('createUnicorn', data);
         let crudUniqueId = import.meta.env.VITE_CRUD_UNIQUE_ID;
-        const result = await axios.post(
-          `https://crudcrud.com/api/${crudUniqueId}/unicorns`, 
-          data, 
-          { headers: { 'Content-Type': 'application/json' } }
-        );
-        //this.unicornData = result.data;
-        console.log('axior data', result);
+        //await this.sleep(1000); //For testing Loader
+        await axios.post(`${crudUniqueId}/unicorns`, data);
+        this.toastMessage = {
+          type: 'success',
+          message: "New Unicorn created successfully"
+        };
+      }
+      catch (error) {
+        console.log('error', error)
+        this.toastMessage = {
+          type: 'error',
+          message: "Failed to create Unicorn"
+        };
+      }
+      finally {
+        this.loading = false;
+      }
+    },
+    async editUnicornItem(data) {
+      this.loading = true;
+      console.log('editUnicornItem', data)
+      try {
+
+        let crudUniqueId = import.meta.env.VITE_CRUD_UNIQUE_ID;
+        //await this.sleep(1000); //For testing Loader
+        let payload = {
+          age: data.age,
+          name: data.name,
+          colour: data.colour
+        }
+        const result = await axios.put(`${crudUniqueId}/unicorns/${data._id}`, payload);
+        this.toastMessage = {
+          type: 'success',
+          message: "Unicorn Item Update successfully"
+        };
+        console.log('result-1', result);
       }
       catch (error) {
         console.log('error', error)
       }
       finally {
-        console.log('done')
+        this.loading = false;
+      }
+    },
+    async deleteUnicornItem(data) {
+      this.loading = true;
+      console.log('editUnicornItem', data)
+      try {
+        let crudUniqueId = import.meta.env.VITE_CRUD_UNIQUE_ID;
+        await axios.delete(`${crudUniqueId}/unicorns/${data._id}`);
+        this.toastMessage = {
+          type: 'error',
+          message: `${data.name} deleted from the database`
+        };
+
+      }
+      catch (error) {
+        console.log('error', error)
+      }
+      finally {
+        this.loading = false;
       }
     }
+
+
   }
 });
