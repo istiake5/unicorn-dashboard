@@ -9,23 +9,23 @@
                             <h3 class="text-xl font-bold mb-3">Create Unicorn</h3>
                         </div>
 
-                        <form class="bg-white shadow-md p-4 rounded-md">
+                        <form class="bg-white shadow-md p-4 rounded-md" @submit="creatUnicorn">
                             <div class="space-y-3">
                                 <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="name">Name</label>
                                     <input type="text" id="name" placeholder="Write Name"
-                                        class="border w-full p-2 rounded-md">
+                                        class="border w-full p-2 rounded-md" v-model="data.name">
                                     <small class="text-gray-500 pt-4">This is the unicorn name</small>
                                 </div>
                                 <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="age">Age</label>
                                     <input type="number" id="age" placeholder="Write age"
-                                        class="border w-full p-2 rounded-md">
+                                        class="border w-full p-2 rounded-md" v-model="data.age">
                                 </div>
                                 <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="color">Color</label>
                                     <input type="text" id="color" placeholder="Write color"
-                                        class="border w-full p-2 rounded-md">
+                                        class="border w-full p-2 rounded-md" v-model="data.colour">
                                 </div>
                             </div>
 
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { useUnicornStore } from "@/stores/UnicornStore";
 import CloseIcon from "../icons/CloseIcon.vue";
 export default {
     components: {
@@ -60,7 +61,12 @@ export default {
     },
     data() {
         return {
-
+            unicornStore: useUnicornStore(),
+            data: {
+                age: "",
+                name: "",
+                colour: "",
+            }
         };
     },
     created() {
@@ -74,6 +80,12 @@ export default {
             this.$emit("close-modal");
 
         },
+        async creatUnicorn(e) {
+            e.preventDefault();
+            await this.unicornStore.createUnicorn(this.data);
+            this.unicornStore.getAllUnicornData();
+            this.$emit("close-modal");
+        }
 
     },
     computed: {

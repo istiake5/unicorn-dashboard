@@ -1,22 +1,22 @@
 <template>
-    <div class="bg-white shadow-sm rounded-lg overflow-hidden border-l-[5px] border-blue-800">
+    <div class="bg-white shadow-sm rounded-lg overflow-hidden border-l-[5px]" :class="getRandomBorderColor()">
         <div class="flex items-center justify-between px-4">
             <div class="p-4 flex items-center space-x-6">
                 <div>
                     <p class="text-sm text-gray-500">No</p>
-                    <p class="font-semibold text-lg">1</p>
+                    <p class="font-semibold text-lg">{{ serialNo + 1 }}</p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Doctor Name</p>
-                    <p class="font-semibold text-lg">Sparkle Angel</p>
+                    <p class="font-semibold text-lg">{{ data.name }}</p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Age</p>
-                    <p class="text-lg">3</p>
+                    <p class="text-lg">{{ data.age }}</p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Color</p>
-                    <p class="text-lg">Blue</p>
+                    <p class="text-lg">{{ data.colour }}</p>
                 </div>
                 <div>
                     <p class="text-sm text-gray-500">Status</p>
@@ -27,7 +27,8 @@
                 </div>
             </div>
             <div class="ml-auto flex space-x-2">
-                <button class="border-2 hover:bg-blue-100 px-3 py-1 rounded-lg  font-medium">
+                <button class="border-2 hover:bg-blue-100 px-3 py-1 rounded-lg  font-medium"
+                    @click="openUnicornEditModal(data)">
                     Edit
                 </button>
                 <button class="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded-lg text-sm font-medium">
@@ -54,15 +55,22 @@
             <ChevronUpIcon class="w-6 h-6 border-2 rounded-full p-1 ml-3 cursor-pointer" @click="toggleDetailStatus"
                 v-if="detailStatus" />
         </div>
+
+        <!-- Modals -->
+        <UnicornEditModal :show-modal="showUnicornEditModal" :singleUnicornData="data"
+            @close-modal="closeUnicornEditModal()" />
+
     </div>
 </template>
 
 <script>
+import { useUnicornStore } from '@/stores/UnicornStore';
 import ChevronDownIcon from '../icons/ChevronDownIcon.vue';
 import ChevronUpIcon from '../icons/ChevronUpIcon.vue';
 import EngingeeringIcon from '../icons/EngingeeringIcon.vue';
 import TrashIcon from '../icons/TrashIcon.vue';
-import UnicornCreateModal from '../modal/UnicornCreateModal.vue';
+import UnicornEditModal from '../modal/UnicornEditModal.vue';
+
 
 
 export default {
@@ -72,18 +80,45 @@ export default {
         ChevronDownIcon,
         EngingeeringIcon,
         ChevronUpIcon,
-        UnicornCreateModal,
+        UnicornEditModal,
 
+
+    },
+    props: {
+        data: Object,
+        serialNo: Number
     },
     data() {
         return {
             detailStatus: false,
+            showUnicornEditModal: false,
+            crudId: null,
+            unicornStore: useUnicornStore(),
         }
     },
     methods: {
         toggleDetailStatus() {
             this.detailStatus = !this.detailStatus
-        }
+        },
+        closeUnicornEditModal() {
+            this.showUnicornEditModal = false;
+            this.crudId = null;
+        },
+        openUnicornEditModal(data) {
+            this.crudId = data._id;
+            this.showUnicornEditModal = true;
+
+        },
+        getRandomBorderColor() {
+            const colors = [
+                'border-blue-800',
+                'border-red-500',
+                'border-green-500',
+                'border-yellow-400',
+                'border-purple-600'
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        },
     },
 
     computed: {

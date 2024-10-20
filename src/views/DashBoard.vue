@@ -17,8 +17,14 @@
 
         <!-- Doctor card Info -->
         <div class="space-y-3">
-            <DoctorCardInfo />
-            <DoctorCardInfo />
+            <DoctorCardInfo v-for="(data, index) in unicornData" :data="data" :serialNo="index" :key="index" />
+
+            <div class="flex flex-col bg-orange-300 rounded-md shadow-md p-3" v-if="unicornData.length == 0">
+                <p class="font-bold text-center p-2">This App run by CRUD Api. If Data didn't show then create a unicorn
+                    item Or create new unique id below this site and replace in env file </p>
+                <a href="https://crudcrud.com/" target="_blank" class="text-center text-blue-800 font-medium">CRUD Api
+                    site Link</a>
+            </div>
         </div>
         <!-- End Doctor card Info -->
 
@@ -34,6 +40,7 @@ import EngingeeringIcon from '@/components/icons/EngingeeringIcon.vue';
 import StopIcon from '@/components/icons/StopIcon.vue';
 import TrashIcon from '@/components/icons/TrashIcon.vue';
 import UnicornCreateModal from '@/components/modal/UnicornCreateModal.vue';
+import { useUnicornStore } from '@/stores/UnicornStore';
 
 export default {
     name: "DashBoard",
@@ -49,7 +56,12 @@ export default {
     data() {
         return {
             showUnicornCreateModal: false,
+            unicornStore: useUnicornStore()
+
         }
+    },
+    mounted() {
+        this.unicornStore.getAllUnicornData();
     },
     methods: {
         closeUnicornCreateModal() {
@@ -60,10 +72,12 @@ export default {
         }
 
     },
-
     computed: {
         testEnv() {
             return import.meta.env.VITE_TEST_ENV_FILE;
+        },
+        unicornData() {
+            return this.unicornStore.unicornData;
         }
     }
 }

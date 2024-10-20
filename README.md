@@ -35,7 +35,3 @@ npm run lint
 
 
 ```
-
-lorem250
-
-# this is test for git

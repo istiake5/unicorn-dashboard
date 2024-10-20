@@ -6,7 +6,7 @@
                 <div class="modal-content-wrapper">
                     <div class="pb-4">
                         <div class="flex items-center justify-between mb-4 px-4  z-40 sticky top-0 border-b">
-                            <h3 class="text-xl font-bold mb-3">Create Unicorn</h3>
+                            <h3 class="text-xl font-bold mb-3">Create Unicorn </h3>
                         </div>
 
                         <form class="bg-white shadow-md p-4 rounded-md">
@@ -14,18 +14,18 @@
                                 <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="name">Name</label>
                                     <input type="text" id="name" placeholder="Write Name"
-                                        class="border w-full p-2 rounded-md">
+                                        class="border w-full p-2 rounded-md" v-model="data.name">
                                     <small class="text-gray-500 pt-4">This is the unicorn name</small>
                                 </div>
                                 <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="age">Age</label>
                                     <input type="number" id="age" placeholder="Write age"
-                                        class="border w-full p-2 rounded-md">
+                                        class="border w-full p-2 rounded-md" v-model="data.age">
                                 </div>
                                 <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="color">Color</label>
                                     <input type="text" id="color" placeholder="Write color"
-                                        class="border w-full p-2 rounded-md">
+                                        class="border w-full p-2 rounded-md" v-model="data.colour">
                                 </div>
                             </div>
 
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { useUnicornStore } from "@/stores/UnicornStore";
 import CloseIcon from "../icons/CloseIcon.vue";
 export default {
     components: {
@@ -56,31 +57,45 @@ export default {
             type: Boolean,
             required: true,
         },
+        singleUnicornData: Object
+
 
     },
     data() {
         return {
-
+            unicornStore: useUnicornStore(),
+            data: {
+                age: "",
+                name: "",
+                colour: "",
+                _id: ""
+            }
         };
     },
     created() {
-
+        
     },
     mounted() {
-
+       
     },
     methods: {
         closeModal() {
             this.$emit("close-modal");
 
         },
-
     },
     computed: {
 
     },
     watch: {
+        singleUnicornData: {
+            immediate: true,
+            handler(newValue) {
+                console.log('watch-1', newValue)
+                this.data = { ...newValue }; // Assign the new unicorn data
+            },
 
+        }
     },
 };
 </script>
