@@ -93,7 +93,7 @@
 <script>
 import CalendarIcon from '@/components/icons/CalendarIcon.vue';
 import ChartIcone from '@/components/icons/ChartIcone.vue';
-import ChartIconTwo from '@/components/icons/chartIconTwo.vue';
+import ChartIconTwo from '@/components/icons/ChartIconTwo.vue';
 import DesignIcon from '@/components/icons/DesignIcon.vue';
 import DocumentIcon from '@/components/icons/DocumentIcon.vue';
 import EngingeeringIcon from '@/components/icons/EngingeeringIcon.vue';
