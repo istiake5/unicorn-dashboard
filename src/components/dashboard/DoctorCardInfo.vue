@@ -4,23 +4,23 @@
         <div class="flex items-center justify-between px-4">
             <div
                 class="p-4 flex w-4/5 flex-col border-r-2 mr-2 lg:border-r-0 lg:mr-0 lg:flex-wrap lg:flex-row space-y-3 lg:items-center lg:space-x-6">
-                <div>
+                <div class="w-[4%]">
                     <p class="text-sm text-gray-500 mt-2">No</p>
                     <p class="font-semibold text-lg">{{ serialNo }}</p>
                 </div>
-                <div>
+                <div class="w-[25%]">
                     <p class="text-sm text-gray-500 ">Doctor Name</p>
                     <p class="font-semibold text-lg">{{ data.name }}</p>
                 </div>
-                <div>
+                <div class="w-[4%]">
                     <p class="text-sm text-gray-500">Age</p>
                     <p class="text-lg">{{ data.age }}</p>
                 </div>
-                <div>
+                <div class="w-[5%]">
                     <p class="text-sm text-gray-500">Color</p>
                     <p class="text-lg">{{ data.colour }}</p>
                 </div>
-                <div>
+                <div class="w-[14%]">
                     <p class="text-sm text-gray-500">Status</p>
                     <span
                         class="inline-flex items-center px-3 py-1.5 rounded-xl bg-yellow-100 text-yellow-800 text-sm font-medium">
