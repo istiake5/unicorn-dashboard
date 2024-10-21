@@ -95,7 +95,7 @@
 <script>
 import CalendarIcon from '@/components/icons/CalendarIcon.vue';
 import ChartIcone from '@/components/icons/ChartIcone.vue';
-import ChartIconTwo from '@/components/icons/chartIconTwo.vue';
+import ChartIconTwo from '@/components/icons/ChartIconTwo.vue';
 import ChevronLeft from '@/components/icons/ChevronLeft.vue';
 import ChevronRight from '@/components/icons/ChevronRight.vue';
 import DesignIcon from '@/components/icons/DesignIcon.vue';
