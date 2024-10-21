@@ -38,10 +38,10 @@
 
                             <div class="flex justify-end mt-6">
                                 <button
-                                    class="border-2 hover:bg-blue-100 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex items-center space-x-3"
+                                    class="border-2  focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex items-center space-x-3"
                                     @click="closeModal">Cancel</button>
                                 <button
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex items-center space-x-3">Create</button>
+                                    class="text-white bg-[#4E46B4] hover:bg-[#4E46B4] focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-[#4E46B4] dark:hover:bg-[#4E46B4] focus:outline-none dark:focus:ring-[#4E46B4] flex items-center space-x-3">Create</button>
                             </div>
                         </form>
                     </div>
@@ -176,7 +176,7 @@ export default {
 
 /* .modal-content {
   max-height: calc(80vh - 2rem);
-  
+
 } */
 
 .modal-close {

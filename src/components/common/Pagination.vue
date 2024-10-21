@@ -9,7 +9,7 @@
         <!-- Page Number Buttons -->
         <button v-for="page in totalPages" :key="page" @click="changePage(page)" :class="[
             'px-3 py-1 rounded',
-            page === currentPage ? 'bg-blue-700 text-white' : 'bg-gray-300 hover:bg-blue-500 hover:text-white'
+            page === currentPage ? 'bg-[#4E46B4] text-white' : 'bg-gray-300 hover:bg-blue-500 hover:text-white'
         ]">
             {{ page }}
         </button>

@@ -23,6 +23,7 @@
                 <div class="w-[14%]">
                     <p class="text-sm text-gray-500">Status</p>
                     <span
+                        :class="getStatusClass(data.age)"
                         class="inline-flex items-center px-3 py-1.5 rounded-xl bg-yellow-100 text-yellow-800 text-sm font-medium">
                         {{ unicornStatus(data) }}
                     </span>
@@ -44,9 +45,9 @@
         <!-- Details card -->
         <hr>
         <div class="border-2 rounded-md m-2" v-if="detailStatus">
-            <div class="flex flex-col justify-center items-center bg-purple-100  rounded-md m-2 p-5">
-                <EngingeeringIcon class="w-8 stroke-blue-700 mb-2" />
-                <p class="text-center text-blue-700">The body copy explains the empty state. <br> The icon relates to
+            <div class="flex flex-col justify-center items-center bg-[#4E46B41F]  rounded-md m-2 p-5">
+                <EngingeeringIcon class="w-8 stroke-[#8A82FB] mb-2" />
+                <p class="text-center text-[#8A82FB]">The body copy explains the empty state. <br> The icon relates to
                     the situation</p>
             </div>
         </div>
@@ -145,6 +146,25 @@ export default {
                 return "🦄 Mature Unicorn";
             } else {
                 return "👴 Old Unicorn";
+            }
+        },
+
+        getStatusClass(age) {
+            if (age >= 0 && age <= 8) {
+                return 'bg-[#FEF3C7] text-[#92400E]'; //  baby unicorns
+            } else if (age >= 9 && age <= 25) {
+                return 'bg-[#2E7D321F] text-[#2E7D32]'; //  mature unicorns
+            } else {
+                return 'bg-[#5C33CF1F] text-[#5C33CF]'; //  old unicorns
+            }
+        },
+        getUnicornAgeColor(age) {
+            if (age >= 0 && age <= 8) {
+                return 'bg-blue-50'; // Light blue background for baby unicorns
+            } else if (age >= 9 && age <= 25) {
+                return 'bg-green-50'; // Light green background for mature unicorns
+            } else {
+                return 'bg-gray-50'; // Light gray background for old unicorns
             }
         },
 
