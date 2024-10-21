@@ -96,3 +96,4 @@ The structure reflects the following principles:
     - Search feature add.
     - When delete item then show alert.
     - when create or update any item then show success message.
+    - The card borders in the UI dynamically change color based on the color of the displayed item
