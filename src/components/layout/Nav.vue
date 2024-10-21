@@ -11,7 +11,7 @@
                 <MenuBarIcone @click="toggleMobileSidebar" />
             </div>
             <div class="text-xl font-bold tracking-tight text-gray-800 md:hidden ml-2">
-                Mobile Admin
+                Unicorn Admin
             </div>
         </div>
 

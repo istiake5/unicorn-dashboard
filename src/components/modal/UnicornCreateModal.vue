@@ -14,23 +14,25 @@
                                 <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="name">Name</label>
                                     <input type="text" id="name" placeholder="Write Name"
-                                        class="border w-full p-2 rounded-md" v-model="data.name">
-                                    <small class="text-gray-500 pt-4">This is the unicorn name</small>
+                                        class="border w-full p-2 rounded-md" :class="{ 'border-red-500': errors.name }"
+                                        v-model="data.name">
+                                    <small class="text-gray-500 pt-4">This is the unicorn name</small> <br>
+                                    <small v-if="errors.name" class="text-red-500">{{ errors.name }}</small>
                                 </div>
                                 <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="age">Age</label>
                                     <input type="number" id="age" placeholder="Write age"
-                                        class="border w-full p-2 rounded-md" v-model="data.age">
+                                        class="border w-full p-2 rounded-md" :class="{ 'border-red-500': errors.age }"
+                                        v-model="data.age">
+                                    <small v-if="errors.age" class="text-red-500">{{ errors.age }}</small>
                                 </div>
-                                <!-- <div class="space-y-3">
-                                    <label class="block font-medium text-lg" for="color">Color</label>
-                                    <input type="text" id="color" placeholder="Write color"
-                                        class="border w-full p-2 rounded-md" v-model="data.colour">
-                                </div> -->
+
                                 <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="color">Color</label>
-                                    <SelectInput class="border w-full p-2 rounded-md" :options="colorList"
+                                    <SelectInput class="border w-full p-2 rounded-md"
+                                        :class="{ 'border-red-500': errors.colour }" :options="colorList"
                                         v-model="data.colour" />
+                                    <small v-if="errors.colour" class="text-red-500">{{ errors.colour }}</small>
                                 </div>
                             </div>
 
@@ -80,7 +82,22 @@ export default {
                 'yellow',
                 'purple',
                 'gray',
-            ]
+            ],
+            errors: {},
+            validationSchema: {
+                name: {
+                    required: true,
+                    message: "Name is required",
+                },
+                age: {
+                    required: true,
+                    message: "Age is required",
+                },
+                colour: {
+                    required: true,
+                    message: "Color is required",
+                },
+            },
         };
     },
     created() {
@@ -94,8 +111,26 @@ export default {
             this.$emit("close-modal");
 
         },
+        validateField(field) {
+            const rule = this.validationSchema[field];
+            if (rule.required && !this.data[field]) {
+                this.errors[field] = rule.message;
+            } else {
+                delete this.errors[field];
+            }
+        },
+        validateForm() {
+            this.errors = {};
+            Object.keys(this.validationSchema).forEach((field) => {
+                this.validateField(field);
+            });
+            return Object.keys(this.errors).length === 0;
+        },
         async creatUnicorn(e) {
             e.preventDefault();
+
+            if (!this.validateForm()) return;
+
             await this.unicornStore.createUnicorn(this.data);
             this.unicornStore.getAllUnicornData();
             this.data = {

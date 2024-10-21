@@ -1,13 +1,15 @@
 <template>
-    <div class="bg-white shadow-sm rounded-lg overflow-hidden border-l-[5px]" :class="getRandomBorderColor()">
+    <div class="bg-white shadow-sm rounded-lg overflow-hidden border-l-[5px]"
+        :class="getRandomBorderColor(data.colour)">
         <div class="flex items-center justify-between px-4">
-            <div class="p-4 flex items-center space-x-6">
+            <div
+                class="p-4 flex w-4/5 flex-col border-r-2 mr-2 lg:border-r-0 lg:mr-0 lg:flex-wrap lg:flex-row space-y-3 lg:items-center lg:space-x-6">
                 <div>
-                    <p class="text-sm text-gray-500">No</p>
+                    <p class="text-sm text-gray-500 mt-2">No</p>
                     <p class="font-semibold text-lg">{{ serialNo }}</p>
                 </div>
                 <div>
-                    <p class="text-sm text-gray-500">Doctor Name</p>
+                    <p class="text-sm text-gray-500 ">Doctor Name</p>
                     <p class="font-semibold text-lg">{{ data.name }}</p>
                 </div>
                 <div>
@@ -26,12 +28,14 @@
                     </span>
                 </div>
             </div>
-            <div class="ml-auto flex space-x-2">
-                <button class="border-2 hover:bg-blue-100 px-3 py-1 rounded-lg  font-medium"
+
+            <div class="ml-auto  flex flex-col lg:flex-row space-y-5 lg:space-y-0 lg:space-x-2">
+                <button class="border-2 hover:bg-blue-100 px-3 py-1 rounded-lg  font-medium w-16"
                     @click="openUnicornEditModal(data)">
                     Edit
                 </button>
-                <button class="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded-lg text-sm font-medium">
+                <button
+                    class="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded-lg text-sm font-medium w-16 flex items-center justify-center">
                     <TrashIcon class="w-5 h-5" @click="deleteUnicornItem(data)" />
                 </button>
             </div>
@@ -118,15 +122,21 @@ export default {
             }
 
         },
-        getRandomBorderColor() {
-            const colors = [
-                'border-blue-800',
-                'border-red-500',
-                'border-green-500',
-                'border-yellow-400',
-                'border-purple-600'
-            ];
-            return colors[Math.floor(Math.random() * colors.length)];
+        getRandomBorderColor(colour) {
+            switch (colour) {
+                case 'blue':
+                    return 'border-blue-800';
+                case 'green':
+                    return 'border-green-500';
+                case 'yellow':
+                    return 'border-yellow-400';
+                case 'purple':
+                    return 'border-purple-600';
+                case 'gray':
+                    return 'border-gray-500';
+                default:
+                    return 'border-gray-800';
+            }
         },
         unicornStatus(data) {
             if (data.age >= 0 && data.age <= 8) {

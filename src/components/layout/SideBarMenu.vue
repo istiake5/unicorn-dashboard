@@ -3,7 +3,7 @@
 
         <!-- Brand Logo / Name -->
         <div class="flex items-center px-6 py-3 h-16">
-            <router-link to="/" class="text-2xl font-bold tracking-tight text-gray-800" @click="fetchData">Dashing
+            <router-link to="/" class="text-2xl font-bold tracking-tight text-gray-800" @click="fetchData">Unicorn
                 Admin.</router-link>
         </div>
         <!-- @end Brand Logo / Name -->

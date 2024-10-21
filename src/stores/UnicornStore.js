@@ -45,9 +45,6 @@ export const useUnicornStore = defineStore('UnicornStore', {
         case 'ageAsce':
           this.unicornData.sort((a, b) => a.age - b.age);
           break;
-        case 'color':
-          this.unicornData.sort((a, b) => a.color.localeCompare(b.color));
-          break;
         default:
           console.log('No valid sorting option selected');
           break;
@@ -63,7 +60,7 @@ export const useUnicornStore = defineStore('UnicornStore', {
       } else {
         let searchData = this.unicornData.filter(unicorn =>
           unicorn.name.toLowerCase().includes(query) ||
-          unicorn.color?.toLowerCase()?.includes(query)
+          unicorn.colour.toLowerCase().includes(query)
         );
 
         this.unicornData = searchData;

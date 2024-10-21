@@ -6,7 +6,7 @@
                 <div class="modal-content-wrapper">
                     <div class="pb-4">
                         <div class="flex items-center justify-between mb-4 px-4  z-40 sticky top-0 border-b">
-                            <h3 class="text-xl font-bold mb-3">Create Unicorn </h3>
+                            <h3 class="text-xl font-bold mb-3">Edit Unicorn </h3>
                         </div>
 
                         <form class="bg-white shadow-md p-4 rounded-md" @submit="editUnicornItem">
@@ -14,18 +14,24 @@
                                 <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="name">Name</label>
                                     <input type="text" id="name" placeholder="Write Name"
-                                        class="border w-full p-2 rounded-md" v-model="data.name">
-                                    <small class="text-gray-500 pt-4">This is the unicorn name</small>
+                                        class="border w-full p-2 rounded-md" :class="{ 'border-red-500': errors.name }"
+                                        v-model="data.name">
+                                    <small class="text-gray-500 pt-4">This is the unicorn name</small> <br>
+                                    <small v-if="errors.name" class="text-red-500">{{ errors.name }}</small>
                                 </div>
                                 <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="age">Age</label>
                                     <input type="number" id="age" placeholder="Write age"
-                                        class="border w-full p-2 rounded-md" v-model="data.age">
+                                        class="border w-full p-2 rounded-md" :class="{ 'border-red-500': errors.age }"
+                                        v-model="data.age">
+                                    <small v-if="errors.age" class="text-red-500">{{ errors.age }}</small>
                                 </div>
                                 <div class="space-y-3">
                                     <label class="block font-medium text-lg" for="color">Color</label>
-                                    <SelectInput class="border w-full p-2 rounded-md" :options="colorList"
+                                    <SelectInput class="border w-full p-2 rounded-md"
+                                        :class="{ 'border-red-500': errors.colour }" :options="colorList"
                                         v-model="data.colour" />
+                                    <small v-if="errors.colour" class="text-red-500">{{ errors.colour }}</small>
                                 </div>
                             </div>
 
@@ -78,7 +84,22 @@ export default {
                 'yellow',
                 'purple',
                 'gray',
-            ]
+            ],
+            errors: {},
+            validationSchema: {
+                name: {
+                    required: true,
+                    message: "Name is required",
+                },
+                age: {
+                    required: true,
+                    message: "Age is required",
+                },
+                colour: {
+                    required: true,
+                    message: "Color is required",
+                },
+            },
         };
     },
     created() {
@@ -92,8 +113,24 @@ export default {
             this.$emit("close-modal");
 
         },
+        validateField(field) {
+            const rule = this.validationSchema[field];
+            if (rule.required && !this.data[field]) {
+                this.errors[field] = rule.message;
+            } else {
+                delete this.errors[field];
+            }
+        },
+        validateForm() {
+            this.errors = {};
+            Object.keys(this.validationSchema).forEach((field) => {
+                this.validateField(field);
+            });
+            return Object.keys(this.errors).length === 0;
+        },
         async editUnicornItem(e) {
             e.preventDefault();
+            if (!this.validateForm()) return;
             await this.unicornStore.editUnicornItem(this.data);
             this.unicornStore.getAllUnicornData();
             this.$emit("close-modal");
