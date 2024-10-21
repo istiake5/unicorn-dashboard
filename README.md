@@ -97,3 +97,6 @@ The structure reflects the following principles:
     - When delete item then show alert.
     - when create or update any item then show success message.
     - The card borders in the UI dynamically change color based on the color of the displayed item
+
+## Live Demo
+You can view the live version of the Unicorn App [here](https://unicorn-dashboard-flame.vercel.app/).
