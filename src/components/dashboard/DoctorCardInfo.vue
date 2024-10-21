@@ -158,16 +158,6 @@ export default {
                 return 'bg-[#5C33CF1F] text-[#5C33CF]'; //  old unicorns
             }
         },
-        getUnicornAgeColor(age) {
-            if (age >= 0 && age <= 8) {
-                return 'bg-blue-50'; // Light blue background for baby unicorns
-            } else if (age >= 9 && age <= 25) {
-                return 'bg-green-50'; // Light green background for mature unicorns
-            } else {
-                return 'bg-gray-50'; // Light gray background for old unicorns
-            }
-        },
-
         computed: {
 
         }
