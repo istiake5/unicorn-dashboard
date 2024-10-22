@@ -36,7 +36,7 @@
             <Pagination :currentPage="currentPage" :totalPages="totalPages" :onPageChange="changePage"
                 v-if="unicornData.length > 0" />
 
-            <div class="flex flex-col bg-orange-300 rounded-md shadow-md p-3" v-if="unicornData.length == 0">
+            <div class="flex flex-col bg-blue-100 rounded-md shadow-md p-3" v-if="unicornData.length == 0">
                 <p class="font-bold text-center p-2">This App run by CRUD Api. If Data didn't show then create a unicorn
                     item Or create new unique id below this site and replace in env file </p>
                 <a href="https://crudcrud.com/" target="_blank" class="text-center text-[#4E46B4] font-medium">CRUD Api
