@@ -23,8 +23,7 @@
                 <div class="w-[14%]">
                     <p class="text-sm text-gray-500">Status</p>
                     <span
-                        :class="getStatusClass(data.age)"
-                        class="inline-flex items-center px-3 py-1.5 rounded-xl bg-yellow-100 text-yellow-800 text-sm font-medium">
+                    :class="`inline-flex items-center px-3 py-1.5 rounded-xl text-sm font-medium ${getStatusClass(data.age)}`">
                         {{ unicornStatus(data) }}
                     </span>
                 </div>
