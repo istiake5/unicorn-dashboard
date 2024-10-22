@@ -1,5 +1,5 @@
 <template>
-    <div class="antialiased bg-gray-200 w-full">
+    <div class="antialiased bg-[#F6F6F6] w-full">
 
         <div class="h-screen flex overflow-hidden">
 

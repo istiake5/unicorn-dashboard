@@ -84,7 +84,7 @@
 
             <div>
                 <hr>
-                <p class="bg-gray-200 text-blue-800 w-9 h-9 rounded-full flex justify-center items-center mt-5">DN</p>
+                <p class="bg-[#F6F6F6] text-blue-800 w-9 h-9 rounded-full flex justify-center items-center mt-5">DN</p>
             </div>
 
 

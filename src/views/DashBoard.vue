@@ -19,7 +19,7 @@
         <!-- Doctor card Info -->
         <div class="space-y-3">
 
-            <div class="flex justify-end" v-if="unicornData.length > 0">
+            <div v-if="unicornData.length > 0">
                 <select class="w-52 p-2 rounded-md" @change="sortUnicorns($event)">
                     <option value="">Sorting Option </option>
                     <option value="deesc">Descending </option>

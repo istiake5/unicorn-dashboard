@@ -2,12 +2,12 @@
     <div class="px-4 md:px-8 py-2 h-16 flex justify-between items-center shadow-sm bg-white">
         <div class="flex items-center w-2/3">
             <input
-                class="bg-gray-200 focus:outline-none focus:shadow-outline focus:bg-white border border-transparent focus:border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal hidden md:block placeholder-gray-700 mr-10"
+                class="bg-[#F6F6F6] focus:outline-none focus:shadow-outline focus:bg-white border border-transparent focus:border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal hidden md:block placeholder-gray-700 mr-10"
                 type="text" placeholder="Search..." v-model="search" />
             <button class="bg-red-500 text-white p-1 px-3 rounded-md" v-if="unicornStore.searchStatus"
                 @click="clearSearch">Clear</button>
 
-            <div class="p-2 rounded-full hover:bg-gray-200 cursor-pointer md:hidden">
+            <div class="p-2 rounded-full hover:bg-[#F6F6F6] cursor-pointer md:hidden">
                 <MenuBarIcone @click="toggleMobileSidebar" />
             </div>
             <div class="text-xl font-bold tracking-tight text-gray-800 md:hidden ml-2">
@@ -17,7 +17,7 @@
 
         <div class="flex items-center">
             <a href="#"
-                class="text-gray-500 p-2 rounded-full hover:text-blue-600 hover:bg-gray-200 cursor-pointer mr-4">
+                class="text-gray-500 p-2 rounded-full hover:text-blue-600 hover:bg-[#F6F6F6] cursor-pointer mr-4">
                 <BellIcon />
             </a>
 
@@ -85,7 +85,7 @@ export default {
         },
         handleClickOutside(event) {
             if (this.$refs.dropdown && !this.$refs.dropdown.contains(event.target)) {
-                //this.open = false; 
+                //this.open = false;
             }
         },
         logout() {
