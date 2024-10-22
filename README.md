@@ -18,7 +18,7 @@ This App is a Vue.js web application that allows users to run CRUD operations on
 
 ![This is a alt text.](/public/screenshort/Screenshot_11.jpg)
 
-### Note: This is Primary state. So, you need unique id from https://crudcrud.com . Go to this site and take id and repleace on your env file. First rename example.env file as .env then replace your Id. Then create some item.
+### Note: This is Primary state. So, you need unique id from https://crudcrud.com . Go to this site and take id and store the unique API key directly from the dashboard.Then create some item.
 
 ## After Create Item then this page will look like.
 
