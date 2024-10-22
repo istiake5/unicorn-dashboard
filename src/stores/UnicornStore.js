@@ -11,6 +11,7 @@ export const useUnicornStore = defineStore('UnicornStore', {
     toastMessage: {},
     currentPage: 1,
     itemsPerPage: 5,
+    crudUniqueId: localStorage.getItem('VITE_CRUD_UNIQUE_ID') || import.meta.env.VITE_CRUD_UNIQUE_ID,  
   }),
 
   getters: {
@@ -80,8 +81,8 @@ export const useUnicornStore = defineStore('UnicornStore', {
     async getAllUnicornData() {
       this.loading = true;
       try {
-        let crudUniqueId = import.meta.env.VITE_CRUD_UNIQUE_ID;
-        const result = await axios.get(`${crudUniqueId}/unicorns`);
+        //let crudUniqueId = import.meta.env.VITE_CRUD_UNIQUE_ID;
+        const result = await axios.get(`${this.crudUniqueId}/unicorns`);
         this.unicornData = result.data;
         this.temUniornData = result.data;
         console.log('axior data', result);
@@ -97,9 +98,9 @@ export const useUnicornStore = defineStore('UnicornStore', {
       this.loading = true;
       try {
         console.log('createUnicorn', data);
-        let crudUniqueId = import.meta.env.VITE_CRUD_UNIQUE_ID;
+        //let crudUniqueId = import.meta.env.VITE_CRUD_UNIQUE_ID;
         //await this.sleep(1000); //For testing Loader
-        await axios.post(`${crudUniqueId}/unicorns`, data);
+        await axios.post(`${this.crudUniqueId}/unicorns`, data);
         this.toastMessage = {
           type: 'success',
           message: "New Unicorn created successfully"
@@ -121,14 +122,14 @@ export const useUnicornStore = defineStore('UnicornStore', {
       console.log('editUnicornItem', data)
       try {
 
-        let crudUniqueId = import.meta.env.VITE_CRUD_UNIQUE_ID;
+        //let crudUniqueId = import.meta.env.VITE_CRUD_UNIQUE_ID;
         //await this.sleep(1000); //For testing Loader
         let payload = {
           age: data.age,
           name: data.name,
           colour: data.colour
         }
-        const result = await axios.put(`${crudUniqueId}/unicorns/${data._id}`, payload);
+        const result = await axios.put(`${this.crudUniqueId}/unicorns/${data._id}`, payload);
         this.toastMessage = {
           type: 'success',
           message: "Unicorn Item Update successfully"
@@ -146,8 +147,8 @@ export const useUnicornStore = defineStore('UnicornStore', {
       this.loading = true;
       console.log('editUnicornItem', data)
       try {
-        let crudUniqueId = import.meta.env.VITE_CRUD_UNIQUE_ID;
-        await axios.delete(`${crudUniqueId}/unicorns/${data._id}`);
+        //let crudUniqueId = import.meta.env.VITE_CRUD_UNIQUE_ID;
+        await axios.delete(`${this.crudUniqueId}/unicorns/${data._id}`);
         this.toastMessage = {
           type: 'error',
           message: `${data.name} deleted from the database`
@@ -160,6 +161,10 @@ export const useUnicornStore = defineStore('UnicornStore', {
       finally {
         this.loading = false;
       }
+    },
+    async updateUniqueId(id){
+      console.log('unique id', id)
+      this.crudUniqueId = id;
     }
 
 

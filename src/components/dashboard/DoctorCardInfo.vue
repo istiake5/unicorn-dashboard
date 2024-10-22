@@ -1,69 +1,85 @@
 <template>
-    <div class="bg-white shadow-sm rounded-lg overflow-hidden border-l-[5px]"
+    <div class="bg-white shadow-sm rounded-lg overflow-hidden border-l-[5px] p-4"
         :class="getRandomBorderColor(data.colour)">
-        <div class="flex items-center justify-between px-4">
-            <div
-                class="p-4 flex w-4/5 flex-col border-r-2 mr-2 lg:border-r-0 lg:mr-0 lg:flex-wrap lg:flex-row space-y-3 lg:items-center lg:space-x-6">
-                <div class="w-[4%]">
-                    <p class="text-sm text-gray-500 mt-2">No</p>
-                    <p class="font-semibold text-lg">{{ serialNo }}</p>
+        <!-- Header Section -->
+        <div
+            class="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0 lg:space-x-4">
+            <!-- Information Columns -->
+            <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-6 w-full lg:w-[80%]">
+                
+                <div class="flex justify-between lg:space-x-6 w-full lg:w-[40%]">
+                    <div class="w-full lg:w-auto">
+                        <p class="text-sm text-gray-500">No</p>
+                        <p class="font-semibold text-lg">{{ serialNo }}</p>
+                    </div>
+
+                    <div class="w-full lg:w-[80%]">
+                        <p class="text-sm text-gray-500">Doctor Name</p>
+                        <p class="font-semibold text-lg">{{ data.name }}</p>
+                    </div>
                 </div>
-                <div class="w-[25%]">
-                    <p class="text-sm text-gray-500 ">Doctor Name</p>
-                    <p class="font-semibold text-lg">{{ data.name }}</p>
+
+                <div class="flex justify-between w-full lg:w-auto lg:space-x-6">
+                    <div class="w-full lg:w-auto">
+                        <p class="text-sm text-gray-500">Age</p>
+                        <p class="text-lg">{{ data.age }}</p>
+                    </div>
+
+                    <div class="w-full lg:w-auto">
+                        <p class="text-sm text-gray-500">Color</p>
+                        <p class="text-lg">{{ data.colour }}</p>
+                    </div>
                 </div>
-                <div class="w-[4%]">
-                    <p class="text-sm text-gray-500">Age</p>
-                    <p class="text-lg">{{ data.age }}</p>
-                </div>
-                <div class="w-[5%]">
-                    <p class="text-sm text-gray-500">Color</p>
-                    <p class="text-lg">{{ data.colour }}</p>
-                </div>
-                <div class="w-[14%]">
+
+                <div class="w-full border-b-2 pb-2 lg:border-none lg:pb-0 lg:w-1/4">
                     <p class="text-sm text-gray-500">Status</p>
                     <span
-                    :class="`inline-flex items-center px-3 py-1.5 rounded-xl text-sm font-medium ${getStatusClass(data.age)}`">
+                        :class="`inline-flex items-center px-3 py-1.5 rounded-xl text-sm font-medium ${getStatusClass(data.age)}`">
                         {{ unicornStatus(data) }}
                     </span>
                 </div>
             </div>
 
-            <div class="ml-auto  flex flex-col lg:flex-row space-y-5 lg:space-y-0 lg:space-x-2">
-                <button class="border-2 hover:bg-blue-100 px-3 py-1 rounded-lg  font-medium w-16"
+            <!-- Actions -->
+            <div class="flex justify-center w-full lg:w-auto space-x-2">
+                <button class="border-2 hover:bg-blue-100 px-3 py-1 rounded-lg font-medium w-16"
                     @click="openUnicornEditModal(data)">
                     Edit
                 </button>
                 <button
-                    class="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded-lg text-sm font-medium w-16 flex items-center justify-center">
-                    <TrashIcon class="w-5 h-5" @click="deleteUnicornItem(data)" />
+                    class="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded-lg text-sm font-medium w-16 flex items-center justify-center"
+                    @click="deleteUnicornItem(data)">
+                    <TrashIcon class="w-5 h-5" />
                 </button>
             </div>
         </div>
 
-        <!-- Details card -->
-        <hr>
+        <!-- Details Section -->
+        <hr class="my-4" />
         <div class="border-2 rounded-md m-2" v-if="detailStatus">
-            <div class="flex flex-col justify-center items-center bg-[#4E46B41F]  rounded-md m-2 p-5">
+            <div class="flex flex-col justify-center items-center bg-[#4E46B41F] rounded-md m-2 p-5">
                 <EngingeeringIcon class="w-8 stroke-[#8A82FB] mb-2" />
-                <p class="text-center text-[#8A82FB]">The body copy explains the empty state. <br> The icon relates to
-                    the situation</p>
+                <p class="text-center text-[#8A82FB]">
+                    The body copy explains the empty state. <br />
+                    The icon relates to the situation
+                </p>
             </div>
         </div>
-        <hr class="px-4">
-        <!-- Details Toggle -->
-        <div class=" px-4 py-2 flex justify-end items-center">
-            <span class="font-medium cursor-pointer" @click="toggleDetailStatus">Show details</span>
+
+        <!-- Toggle Details -->
+        <div class="px-4 py-2 flex justify-between items-center">
+            <span class="font-medium cursor-pointer" @click="toggleDetailStatus">
+                Show details
+            </span>
             <ChevronDownIcon class="w-6 h-6 border-2 rounded-full p-1 ml-3 cursor-pointer" @click="toggleDetailStatus"
                 v-if="!detailStatus" />
             <ChevronUpIcon class="w-6 h-6 border-2 rounded-full p-1 ml-3 cursor-pointer" @click="toggleDetailStatus"
                 v-if="detailStatus" />
         </div>
 
-        <!-- Modals -->
+        <!-- Edit Modal -->
         <UnicornEditModal :show-modal="showUnicornEditModal" :singleUnicornData="data"
             @close-modal="closeUnicornEditModal()" />
-
     </div>
 </template>
 

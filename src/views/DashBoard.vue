@@ -41,6 +41,15 @@
                     item Or create new unique id below this site and replace in env file </p>
                 <a href="https://crudcrud.com/" target="_blank" class="text-center text-[#4E46B4] font-medium">CRUD Api
                     site Link</a>
+
+                <br>
+                <div class="flex flex-col space-y-4">
+                    <input class="h-8 px-4" type="text" placeholder="Type CRUD Unique Id" v-model="crudUniqueId">
+                    <div class="flex justify-center">
+                        <button class="bg-[#4E46B4] w-28 text-white p-2 rounded-md" @click="submitCrudId">Submit</button>
+                    </div>
+                </div>
+
             </div>
         </div>
         <!-- End Doctor card Info -->
@@ -76,8 +85,9 @@ export default {
 
     data() {
         return {
+            crudUniqueId: '',
             showUnicornCreateModal: false,
-            unicornStore: useUnicornStore()
+            unicornStore: useUnicornStore(),
 
         }
     },
@@ -98,6 +108,25 @@ export default {
             const option = event.target.value;
             console.log('sortUnicorns', option)
             this.unicornStore.sortUnicorns(option);
+        },
+        async submitCrudId() {
+            if (this.crudUniqueId.trim() === '') {
+                alert('Please enter a valid CRUD unique ID.');
+                return;
+            }
+
+            // Save the ID in localStorage
+            localStorage.setItem('VITE_CRUD_UNIQUE_ID', this.crudUniqueId);
+            alert('CRUD Unique ID saved successfully!');
+            let Id = this.crudUniqueId
+            await this.unicornStore.updateUniqueId(Id)
+            let data ={
+                "age": "30",
+                "name": "jone Doe",
+                "colour" : "blue"
+            }
+            await this.unicornStore.createUnicorn(data);
+            await this.unicornStore.getAllUnicornData();
         },
 
     },
